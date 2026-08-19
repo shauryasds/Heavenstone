@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { sampleProperties } from '../data/sampleProperties.js';
 
-const API_BASE = 'http://localhost:2000/api';
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 const apiClient = axios.create({
   baseURL: API_BASE,

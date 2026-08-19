@@ -11,14 +11,20 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 2000;
 
-// Middleware
-app.use(cors());
+// CORS configured via environment variable
+const clientUrl = process.env.CLIENT_URL || '*';
+app.use(cors({
+  origin: clientUrl,
+  credentials: true
+}));
+
 app.use(express.json());
 
 // API Routes
 app.use('/api', apiRoutes);
+app.use('/', apiRoutes); // Direct root handling for Vercel rewrites if needed
 
-// Health Check
+// Health Check Endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({
     status: 'online',
@@ -62,17 +68,17 @@ const seedDatabaseIfEmpty = async () => {
   }
 };
 
-// Start Server
-const startServer = async () => {
-  await connectDB();
-  await seedDatabaseIfEmpty();
+// Initialize DB and Seeder
+connectDB().then(() => seedDatabaseIfEmpty());
 
+// Start server if executed directly
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`==========================================`);
     console.log(`🏰 Havenstone Realty Server running on port ${PORT}`);
     console.log(`🔗 API Base: http://localhost:${PORT}/api`);
     console.log(`==========================================`);
   });
-};
+}
 
-startServer();
+export default app;
