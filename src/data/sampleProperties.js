@@ -1,0 +1,100 @@
+export const sampleProperties = [
+  {
+    id: 'prop-1',
+    _id: 'prop-1',
+    title: 'The Grand Residency',
+    subtitle: 'Ultra Luxury 3 BHK High-rise Residence',
+    type: 'Apartment',
+    location: 'Gurgaon',
+    address: 'Sector 54, Golf Course Road, Gurgaon',
+    city: 'Gurgaon',
+    purpose: 'Buy',
+    price: 12500000,
+    priceDisplay: '₹1.25 Cr',
+    bedrooms: 3,
+    bathrooms: 3,
+    areaSqFt: 2250,
+    image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80'
+    ],
+    badge: '3 BHK Apartment',
+    description: 'The Grand Residency represents the pinnacle of contemporary urban living in Gurgaon. Featuring expansive floor-to-ceiling glass windows, imported Italian marble flooring, designer modular kitchen, and panoramic views of the Golf Course green belts.',
+    amenities: ['24/7 Security', 'Infinity Pool', 'Clubhouse & Spa', 'Power Backup', 'Covered Parking', 'EV Charging Station']
+  },
+  {
+    id: 'prop-2',
+    _id: 'prop-2',
+    title: 'Palm Grove Villas',
+    subtitle: 'Independent 4 BHK Private Gated Villa',
+    type: 'Villa',
+    location: 'Noida',
+    address: 'Sector 128, Expressway Zone, Noida',
+    city: 'Noida',
+    purpose: 'Buy',
+    price: 21000000,
+    priceDisplay: '₹2.10 Cr',
+    bedrooms: 4,
+    bathrooms: 5,
+    areaSqFt: 3800,
+    image: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80'
+    ],
+    badge: '4 BHK Villa',
+    description: 'Nestled in a private sanctuary along the Noida Expressway, Palm Grove Villas offers exquisite architectural design with a private plunge pool, personal manicured lawn, smart home automation, and 4 spacious ensuite bedrooms.',
+    amenities: ['Private Lawn', 'Plunge Pool', 'Smart Automation', 'Gated Security', 'Private Terrace', 'Gymnasium']
+  },
+  {
+    id: 'prop-3',
+    _id: 'prop-3',
+    title: 'Skyline Heights',
+    subtitle: 'Modern 2 BHK Urban Apartment',
+    type: 'Apartment',
+    location: 'Delhi',
+    address: 'Vasant Kunj, South Delhi, New Delhi',
+    city: 'Delhi',
+    purpose: 'Buy',
+    price: 7800000,
+    priceDisplay: '₹78 Lakh',
+    bedrooms: 2,
+    bathrooms: 2,
+    areaSqFt: 1350,
+    image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80'
+    ],
+    badge: '2 BHK Apartment',
+    description: 'Skyline Heights delivers seamless city living in South Delhi. Located in close proximity to premier shopping hubs, international schools, and metro stations, featuring sunlit living spaces and landscaped garden views.',
+    amenities: ['Metro Proximity', 'Children Play Area', 'High Speed Elevators', '24/7 Water Supply', 'Intercom Facility']
+  },
+  {
+    id: 'prop-4',
+    _id: 'prop-4',
+    title: 'Central Business Plaza',
+    subtitle: 'Grade A Commercial Office Workspace',
+    type: 'Commercial',
+    location: 'Gurgaon',
+    address: 'DLF Cyber City, Phase 2, Gurgaon',
+    city: 'Gurgaon',
+    purpose: 'Rent',
+    price: 8500000,
+    priceDisplay: '₹85 Lakh',
+    bedrooms: 0,
+    bathrooms: 4,
+    areaSqFt: 2900,
+    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1200&q=80'
+    ],
+    badge: 'Commercial Office',
+    description: 'A Grade-A commercial office space in the heart of Gurgaon Cyber City. Fully furnished layout with executive conference suites, break-out zones, centralized HVAC climate control, and fiber optic connectivity.',
+    amenities: ['100% Power Backup', 'Valet Parking', 'Centralized AC', 'Multi-tier Security', 'Cafeteria & Lounge']
+  }
+];
