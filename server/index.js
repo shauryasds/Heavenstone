@@ -20,6 +20,25 @@ app.use(cors({
 
 app.use(express.json());
 
+// Database connection middleware for Serverless environment (Vercel)
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
+// API Routes
+app.use('/api', apiRoutes);
+app.use('/', apiRoutes); // Direct root handling for Vercel rewrites if needed
+
+// Health Check Endpoint
+app.get('/health', async (req, res) => {
+  const connected = await connectDB();
+  res.status(200).json({
+    status: 'online',
+    service: 'Havenstone Realty API',
+    databaseConnected: connected
+  });
+});
 
 // Auto seed function for MongoDB
 const seedDatabaseIfEmpty = async () => {
@@ -57,26 +76,8 @@ const seedDatabaseIfEmpty = async () => {
 };
 
 // Initialize DB and Seeder
-(async () => {
-  const connected = await connectDB();
+connectDB().then(() => seedDatabaseIfEmpty());
 
-  if (connected) {
-    await seedDatabaseIfEmpty();
-  }
-})();
-
-// API Routes
-app.use('/api', apiRoutes);
-app.use('/', apiRoutes); // Direct root handling for Vercel rewrites if needed
-
-// Health Check Endpoint
-app.get('/health', (req, res) => {
-  res.status(200).json({
-    status: 'online',
-    service: 'Havenstone Realty API',
-    databaseConnected: getIsConnected()
-  });
-});
 // Start server if executed directly
 if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
   app.listen(PORT, () => {
