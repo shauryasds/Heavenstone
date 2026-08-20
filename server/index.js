@@ -69,7 +69,13 @@ const seedDatabaseIfEmpty = async () => {
 };
 
 // Initialize DB and Seeder
-connectDB().then(() => seedDatabaseIfEmpty());
+(async () => {
+  const connected = await connectDB();
+
+  if (connected) {
+    await seedDatabaseIfEmpty();
+  }
+})();
 
 // Start server if executed directly
 if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
