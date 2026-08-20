@@ -1,65 +1,28 @@
 import mongoose from 'mongoose';
 
-let isConnected = false;
-
 export const connectDB = async () => {
-  if (isConnected) return true;
+  // 1 = connected, 2 = connecting
+  if (mongoose.connection.readyState >= 1) {
+    return true;
+  }
+
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
+    console.error('[MongoDB] MONGODB_URI environment variable is missing!');
+    return false;
+  }
 
   try {
-    console.log("trying this connection string",process.env.MONGODB_URI);
-    await mongoose.connect(process.env.MONGODB_URI);
-
-
-    isConnected = true;
-    console.log('[MongoDB] Connected');
+    console.log('[MongoDB] Connecting to database...');
+    await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 5000, // Timeout after 5 seconds instead of default 30s
+    });
+    console.log('[MongoDB] Connected successfully');
     return true;
   } catch (error) {
-    isConnected = false;
-    console.error('[MongoDB] Connection Failed:', error);
+    console.error('[MongoDB] Connection Failed:', error?.message || error);
     return false;
   }
 };
 
-export const getIsConnected = () => isConnected;
-
-
-
-
-
-
-
-
-
-
-// import mongoose from 'mongoose';
-
-// let isConnected = false;
-
-// export const connectDB = async () => {
-//   const connString =
-//     process.env.MONGODB_URI ||
-//     'mongodb://127.0.0.1:27017/havenstone_realty';
-
-//   console.log('[MongoDB] URI being used:', connString);
-
-//   try {
-//     const conn = await mongoose.connect(connString, {
-//       serverSelectionTimeoutMS: 3000,
-//     });
-
-//     isConnected = true;
-//     console.log(`[MongoDB] Connected: ${conn.connection.host}`);
-//     return true;
-
-//   } catch (error) {
-//     isConnected = false;
-
-//     console.error('[MongoDB] CONNECTION FAILED');
-//     console.error('[MongoDB] URI attempted:', connString);
-//     console.error('[MongoDB] Error:', error?.message);
-
-//     return false;
-//   }
-// };
-
-// export const getIsConnected = () => isConnected;
+export const getIsConnected = () => mongoose.connection.readyState === 1;
