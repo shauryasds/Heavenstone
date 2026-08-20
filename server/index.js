@@ -11,18 +11,46 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 2000;
 
-// CORS configured via environment variable
-const clientUrl = process.env.CLIENT_URL || '*';
+// Flexible CORS configuration supporting main domain, Vercel preview URLs, & local dev
+const configuredOrigins = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.split(',').map(url => url.trim())
+  : [];
+
 app.use(cors({
-  origin: clientUrl,
-  credentials: true
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps, curl, or Postman)
+    if (!origin) return callback(null, true);
+
+    // Allow explicitly configured origins or wildcard
+    if (configuredOrigins.includes(origin) || configuredOrigins.includes('*')) {
+      return callback(null, true);
+    }
+
+    // Allow all Vercel deployment domains (*.vercel.app)
+    if (origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+
+    // Allow local development URLs
+    if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+      return callback(null, true);
+    }
+
+    callback(null, false);
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
 
 // Database connection middleware for Serverless environment (Vercel)
 app.use(async (req, res, next) => {
-  await connectDB();
+  const connected = await connectDB();
+  if (connected) {
+    await seedDatabaseIfEmpty();
+  }
   next();
 });
 
@@ -40,9 +68,10 @@ app.get('/health', async (req, res) => {
   });
 });
 
+let isSeeded = false;
 // Auto seed function for MongoDB
 const seedDatabaseIfEmpty = async () => {
-  if (!getIsConnected()) return;
+  if (isSeeded || !getIsConnected()) return;
   try {
     const count = await Property.countDocuments();
     if (count === 0) {
@@ -70,12 +99,13 @@ const seedDatabaseIfEmpty = async () => {
       await Property.insertMany(formatted);
       console.log('[Seeder] Successfully seeded database.');
     }
+    isSeeded = true;
   } catch (err) {
     console.error('[Seeder Error]:', err.message);
   }
 };
 
-// Initialize DB and Seeder
+// Initialize DB and Seeder on startup
 connectDB().then(() => seedDatabaseIfEmpty());
 
 // Start server if executed directly
